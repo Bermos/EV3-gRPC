@@ -1,0 +1,18 @@
+syntax = 'proto3';
+
+package sound;
+
+option go_package = "internal/server/sound";
+
+message Empty {}
+
+message ToneMessage {
+  int32 frequency = 1;
+  int32 duration_ms = 2;
+}
+
+service Sound {
+  rpc Beep (Empty) returns (Empty) {}
+
+  rpc Tone (ToneMessage) returns (Empty) {}
+}
