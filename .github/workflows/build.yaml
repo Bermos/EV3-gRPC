@@ -22,6 +22,7 @@ jobs:
 
       - name: Generate go server
         run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           protoc --go_out=. --go-grpc_out=. ./protobuff/*.proto
 
       - name: Build package
