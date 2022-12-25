@@ -1,8 +1,8 @@
 package buggy
 
 import (
-	"EV3-gRPC/internal/server/buggy/util"
 	"context"
+	"github.com/Bermos/EV3-gRPC/internal/server/buggy/util"
 	"github.com/ev3go/ev3dev"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"EV3-gRPC/internal/server/buggy"
-	"EV3-gRPC/internal/server/ev3"
 	"flag"
+	"github.com/Bermos/EV3-gRPC/internal/server/buggy"
+	"github.com/Bermos/EV3-gRPC/internal/server/ev3"
 	"google.golang.org/grpc"
 	"log"
 	"net"
