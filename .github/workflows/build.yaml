@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Java-Jar
-          path: clients/ev3-java/build/libs/ev3api-java-1.0-SNAPSHOT-all.jar
+          path: clients/ev3api-java/build/libs/ev3api-java-1.0-SNAPSHOT-all.jar
           retention-days: 7
 
 
