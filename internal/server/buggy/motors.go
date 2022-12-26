@@ -47,7 +47,7 @@ func (m *MotorsServerImpl) OnForSeconds(_ context.Context, params *OnParams) (*E
 	return &Empty{}, nil
 }
 
-func (m *MotorsServerImpl) Left(_ context.Context, params *MotorParams) (*Empty, error) {
+func (m *MotorsServerImpl) Left(_ context.Context, params *MotorParams) (*MotorState, error) {
 	speed, rampUp, rampDown, stopAction := parseMotorParams(params)
 
 	motorSet.left.SetSpeedSetpoint(getNativeSpeed(speed))
@@ -55,10 +55,11 @@ func (m *MotorsServerImpl) Left(_ context.Context, params *MotorParams) (*Empty,
 	motorSet.left.SetRampDownSetpoint(time.Duration(rampDown) * time.Millisecond)
 	motorSet.left.SetStopAction(stopAction)
 
-	return &Empty{}, nil
+	pos, _ := motorSet.left.Position()
+	return &MotorState{Position: uint32(pos)}, nil
 }
 
-func (m *MotorsServerImpl) Right(_ context.Context, params *MotorParams) (*Empty, error) {
+func (m *MotorsServerImpl) Right(_ context.Context, params *MotorParams) (*MotorState, error) {
 	speed, rampUp, rampDown, stopAction := parseMotorParams(params)
 
 	motorSet.right.SetSpeedSetpoint(getNativeSpeed(speed))
@@ -66,7 +67,8 @@ func (m *MotorsServerImpl) Right(_ context.Context, params *MotorParams) (*Empty
 	motorSet.right.SetRampDownSetpoint(time.Duration(rampDown) * time.Millisecond)
 	motorSet.right.SetStopAction(stopAction)
 
-	return &Empty{}, nil
+	pos, _ := motorSet.left.Position()
+	return &MotorState{Position: uint32(pos)}, nil
 }
 
 func parseMotorParams(params *MotorParams) (int, int, int, string) {
@@ -83,11 +85,11 @@ func (m *MotorsServerImpl) Stop(_ context.Context, params *StopParams) (*Empty, 
 	return &Empty{}, nil
 }
 
-func (m *MotorsServerImpl) WaitUntilNotMoving(_ context.Context, empty *Empty) (*Empty, error) {
-	ev3dev.Wait(motorSet.left, ev3dev.Holding, 0, 0, false, 10*time.Second)
-	ev3dev.Wait(motorSet.right, ev3dev.Holding, 0, 0, false, 10*time.Second)
+func (m *MotorsServerImpl) WaitUntilNotMoving(_ context.Context, _ *Empty) (*MotorState, error) {
+	_, leftOk, _ := ev3dev.Wait(motorSet.left, ev3dev.Holding, 0, 0, false, 10*time.Second)
+	_, rightOk, _ := ev3dev.Wait(motorSet.right, ev3dev.Holding, 0, 0, false, 10*time.Second)
 
-	return &Empty{}, nil
+	return &MotorState{NotMoving: leftOk && rightOk}, nil
 }
 
 func parseSpeed(params *OnParams) (int, int) {

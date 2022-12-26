@@ -1,12 +1,11 @@
 package dev.bermos;
 
 import dev.bermos.proto.ev3.*;
-import io.grpc.Grpc;
-import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 public class EV3 {
+    ManagedChannel channel;
     private final SoundGrpc.SoundBlockingStub soundBlockingStub;
     private final PowerGrpc.PowerBlockingStub powerBlockingStub;
     private final ButtonGrpc.ButtonBlockingStub buttonBlockingStub;
@@ -15,7 +14,7 @@ public class EV3 {
     private final Empty empty = Empty.newBuilder().build();
 
     public EV3(String host) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, 9000).usePlaintext().build();
+        channel = ManagedChannelBuilder.forAddress(host, 9000).usePlaintext().build();
 
         this.soundBlockingStub = SoundGrpc.newBlockingStub(channel);
         this.powerBlockingStub = PowerGrpc.newBlockingStub(channel);

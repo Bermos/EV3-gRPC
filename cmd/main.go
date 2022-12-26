@@ -9,14 +9,16 @@ import (
 	"net"
 )
 
-var address = flag.String("address", ":9000", "address to bind to, can also be just the port ':9000'")
+var (
+	address = flag.String("address", ":9000", "address to bind to, can also be just the port ':9000'")
+)
 
 func main() {
 	flag.Parse()
 
 	listener, err := net.Listen("tcp", *address)
 	if err != nil {
-		log.Fatalf("Could not listen on address %s: %v", ":9000", err)
+		log.Fatalf("Could not listen on address %s: %v", *address, err)
 	}
 
 	s := grpc.NewServer()
@@ -30,7 +32,7 @@ func main() {
 	buggy.RegisterSensorsServer(s, &buggy.SensorsServerImpl{})
 
 	log.Printf("INFO - starting server on address %s", *address)
-	if err := s.Serve(listener); err != nil {
+	if err = s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }

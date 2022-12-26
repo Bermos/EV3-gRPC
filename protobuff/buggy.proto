@@ -29,15 +29,20 @@ message StopParams {
   bool break = 1;
 }
 
+message MotorState {
+  uint32 position = 1;
+  bool not_moving = 2;
+}
+
 service Motors {
   rpc On (OnParams) returns (Empty) {}
   rpc OnForDegrees (OnParams) returns (Empty) {}
   rpc OnForRotations (OnParams) returns (Empty) {}
   rpc OnForSeconds (OnParams) returns (Empty) {}
-  rpc Left (MotorParams) returns (Empty) {}
-  rpc Right (MotorParams) returns (Empty) {}
+  rpc Left (MotorParams) returns (MotorState) {}
+  rpc Right (MotorParams) returns (MotorState) {}
   rpc Stop (StopParams) returns (Empty) {}
-  rpc WaitUntilNotMoving (Empty) returns (Empty) {}
+  rpc WaitUntilNotMoving (Empty) returns (MotorState) {}
 }
 
 
