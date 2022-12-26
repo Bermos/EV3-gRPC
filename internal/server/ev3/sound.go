@@ -59,6 +59,7 @@ func (s SoundServerImpl) Speak(_ context.Context, text *Text) (*Empty, error) {
 		return nil, status.Error(codes.Canceled, "missing content parameter")
 	}
 
+	// FIXME: currently a ' will cause an error since it isn't escaped -> escape it
 	cmd := fmt.Sprintf("%s --stdout -a 200 -s 130 '%s' | %s -q", espeakPath, content, aplayPath)
 	if out, err := exec.Command("bash", "-c", cmd).Output(); err != nil {
 		return nil, status.Errorf(codes.Internal, "%s - %v", out, err)
