@@ -3,6 +3,8 @@ syntax = 'proto3';
 package buggy;
 
 option go_package = "internal/server/buggy";
+option java_package = "dev.bermos.proto.buggy";
+option java_multiple_files = true;
 
 message Empty {}
 
