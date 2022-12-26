@@ -1,4 +1,7 @@
 *.pb.go
+*pb2.py
+*pb2.pyi
+*pb2_grpc.py
 
 *.iml
 .idea
