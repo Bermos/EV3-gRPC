@@ -17,6 +17,7 @@ message Text {
   string content = 1;
 }
 
+// Sound description
 service Sound {
   rpc Beep (Empty) returns (Empty) {}
   rpc PlayTone (Tone) returns (Empty) {}
