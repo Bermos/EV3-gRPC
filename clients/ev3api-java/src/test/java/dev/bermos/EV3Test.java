@@ -3,8 +3,6 @@ package dev.bermos;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class EV3Test {
     private static EV3 ev3;
 
@@ -36,5 +34,45 @@ public class EV3Test {
     @Test
     public void flash_color() {
         ev3.flash("green");
+    }
+
+    @Test
+    public void led() {
+        ev3.led("left", "green");
+    }
+
+    @Test
+    public void led_off() {
+        ev3.led_off();
+    }
+
+    @Test
+    public void max_voltage() {
+        System.out.println(ev3.max_voltage());
+    }
+
+    @Test
+    public void min_voltage() {
+        System.out.println(ev3.min_voltage());
+    }
+
+    @Test
+    public void play_tone() {
+        ev3.play_tone(220, 1000);
+    }
+
+    @Test
+    public void speak() {
+        ev3.speak("Hello, I am a robot");
+    }
+
+    @Test
+    public void technology() {
+        System.out.println(ev3.technology());
+    }
+
+    @Test
+    public void voltage() {
+        System.out.println(ev3.voltage());
     }
 }
