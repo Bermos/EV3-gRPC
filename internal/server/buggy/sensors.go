@@ -12,6 +12,7 @@ type SensorsServerImpl struct {
 }
 
 func (s *SensorsServerImpl) Gyro(_ context.Context, empty *Empty) (*SensorResult, error) {
+	Gyro.SetMode("GYRO-ANG")
 	resp := &SensorResult{
 		StrValue: Gyro.GetStringValue(),
 		NumValue: Gyro.GetNumValue() - gyroOffset,
@@ -27,6 +28,7 @@ func (s *SensorsServerImpl) GyroReset(_ context.Context, empty *Empty) (*Empty, 
 }
 
 func (s *SensorsServerImpl) Sonic(_ context.Context, empty *Empty) (*SensorResult, error) {
+	Sonic.SetMode("US-DIST-CM")
 	resp := &SensorResult{
 		StrValue: Sonic.GetStringValue(),
 		NumValue: Sonic.GetNumValue(),
