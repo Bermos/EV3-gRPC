@@ -12,7 +12,7 @@ type ButtonServerImpl struct {
 }
 
 func (b *ButtonServerImpl) Pressed(_ context.Context, _ *Empty) (*Buttons, error) {
-	evt := getLastButtonEvent(true)
+	evt := getLastButtonEvent(false)
 	resp := &Buttons{
 		Pressed: evt != nil && time.Now().Sub(evt.TimeStamp) < 3*time.Second,
 	}
@@ -39,16 +39,19 @@ func init() {
 func wait() {
 	w, err := ev3dev.NewButtonWaiter()
 	if err != nil {
-		log.Fatalf("failed to create button waiter: %v", err)
+		log.Printf("ERROR - failed to create button waiter: %v", err)
+		return
 	}
+	defer w.Close()
 
 	for e := range w.Events {
-
-		lastButtonEvent = &Event{
-			ButtonEvent: e,
-			TimeStamp:   time.Now(),
+		if e.Type == 1 && e.Value == 1 {
+			lastButtonEvent = &Event{
+				ButtonEvent: e,
+				TimeStamp:   time.Now(),
+			}
+			log.Printf("DEBUG - %+v", lastButtonEvent)
 		}
-		log.Printf("DEBUG - %+v\n", e)
 	}
 }
 
