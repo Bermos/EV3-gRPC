@@ -21,7 +21,7 @@ class EV3:
         self.sound_stub.Beep(self.ev3_empty)
 
     def button(self) -> bool:
-        """ :return: true if a button was pressend in the last 3 seconds """
+        """ :return: True if a button was pressend in the last 3 seconds """
         return self.button_stub.Pressed(self.ev3_empty).pressed
 
     def current(self) -> int:
