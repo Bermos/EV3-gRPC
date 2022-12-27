@@ -32,6 +32,13 @@ public class Buggy extends EV3 {
         sensorsBlockingStub = SensorsGrpc.newBlockingStub(channel);
     }
 
+    public Buggy(String host, int port) {
+        super(host, port);
+
+        motorsBlockingStub = MotorsGrpc.newBlockingStub(channel);
+        sensorsBlockingStub = SensorsGrpc.newBlockingStub(channel);
+    }
+
     public int gyro(boolean reset) {
         int gyroValue = (int) sensorsBlockingStub.gyro(empty).getNumValue();
 

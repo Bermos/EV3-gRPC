@@ -22,6 +22,15 @@ public class EV3 {
         this.ledBlockingStub = LedGrpc.newBlockingStub(channel);
     }
 
+    public EV3(String host, int port) {
+        channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+
+        this.soundBlockingStub = SoundGrpc.newBlockingStub(channel);
+        this.powerBlockingStub = PowerGrpc.newBlockingStub(channel);
+        this.buttonBlockingStub = ButtonGrpc.newBlockingStub(channel);
+        this.ledBlockingStub = LedGrpc.newBlockingStub(channel);
+    }
+
     public void beep() {
         soundBlockingStub.beep(empty);
     }
