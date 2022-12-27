@@ -89,22 +89,22 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install build grpcio-tools
-        working-directory: ./clients/ev3-python
+        working-directory: ./clients/ev3api-python
 
       - name: Install dependencies
         run: |
           python -m grpc_tools.protoc -I../../protobuff --python_out=. --pyi_out=. --grpc_python_out=. ../../protobuff/*.proto
-        working-directory: ./clients/ev3-python
+        working-directory: ./clients/ev3api-python
 
       - name: Build package
         run: python -m build
-        working-directory: ./clients/ev3-python
+        working-directory: ./clients/ev3api-python
 
       - name: Upload Python wheel
         uses: actions/upload-artifact@v3
         with:
           name: Python-Wheel
-          path: clients/ev3-python/dist/ev3api-python-0.1.0-py3-none-any.whl
+          path: clients/ev3api-python/dist/ev3api-python-0.1.0-py3-none-any.whl
           retention-days: 7
 
 
@@ -144,8 +144,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./ev3-java-1.0-SNAPSHOT-all.jar
-          asset_name: ev3-java-1.0-SNAPSHOT-all.jar
+          asset_path: ./ev3api-java-1.0-SNAPSHOT-all.jar
+          asset_name: ev3api-java-1.0-SNAPSHOT-all.jar
           asset_content_type: application/java-archive
 
       - name: Upload Python Client Release Asset
