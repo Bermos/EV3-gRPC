@@ -53,7 +53,7 @@ public class EV3 {
     }
 
     /**
-     * Flashes the LEDs
+     * Flashe the LEDs
      */
     public void flash() {
         EV3Led ledRequest = EV3Led.newBuilder().build();
@@ -61,7 +61,7 @@ public class EV3 {
     }
 
     /**
-     * Flashes the LEDs in the given color
+     * Flashe the LEDs in the given color
      * @param color to use [off|red|yellow|orange|amber|lime|green]
      */
     public void flash(String color) {
@@ -89,7 +89,7 @@ public class EV3 {
     }
 
     /**
-     * Turns off all LEDs
+     * Turn off all LEDs
      */
     public void led_off() {
         ledBlockingStub.ledOff(empty);

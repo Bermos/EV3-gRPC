@@ -68,7 +68,7 @@ public class Buggy extends EV3 {
     }
 
     /**
-     * Sets left motor parameters and return tacho count
+     * Set left motor parameters and return tacho count
      * @param speed in percent of max speed
      * @param rampUp in milliseconds
      * @param rampDown in milliseconds
@@ -88,7 +88,7 @@ public class Buggy extends EV3 {
     }
 
     /**
-     * Sets right motor parameters and return tacho count
+     * Set right motor parameters and return tacho count
      * @param speed in percent of max speed
      * @param rampUp in milliseconds
      * @param rampDown in milliseconds
