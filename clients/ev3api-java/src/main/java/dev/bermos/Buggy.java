@@ -39,6 +39,10 @@ public class Buggy extends EV3 {
         sensorsBlockingStub = SensorsGrpc.newBlockingStub(channel);
     }
 
+    public int gyro() {
+        return gyro(false);
+    }
+
     public int gyro(boolean reset) {
         int gyroValue = (int) sensorsBlockingStub.gyro(empty).getNumValue();
 
@@ -80,19 +84,19 @@ public class Buggy extends EV3 {
         motorsBlockingStub.on(params);
     }
 
-    public void onForDegrees(int lSpeed, int rSpeed) {
-        OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).build();
-        motorsBlockingStub.on(params);
+    public void onForDegrees(int lSpeed, int rSpeed, int degrees) {
+        OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).setDegrees(degrees).build();
+        motorsBlockingStub.onForDegrees(params);
     }
 
-    public void onForRotations(int lSpeed, int rSpeed) {
-        OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).build();
-        motorsBlockingStub.on(params);
+    public void onForRotations(int lSpeed, int rSpeed, int rotations) {
+        OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).setRotations(rotations).build();
+        motorsBlockingStub.onForRotations(params);
     }
 
-    public void onForSeconds(int lSpeed, int rSpeed) {
-        OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).build();
-        motorsBlockingStub.on(params);
+    public void onForSeconds(int lSpeed, int rSpeed, int seconds) {
+        OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).setSeconds(seconds).build();
+        motorsBlockingStub.onForSeconds(params);
     }
 
     public int sonic() {
