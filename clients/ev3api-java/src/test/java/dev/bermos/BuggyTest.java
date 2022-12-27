@@ -38,17 +38,17 @@ public class BuggyTest {
 
     @Test
     public void onForDegrees() {
-        buggy.onForDegrees(10, -10, 20);
+        buggy.onForDegrees(10, -10, 20, true);
     }
 
     @Test
     public void onForRotations() {
-        buggy.onForRotations(-5, 5, 2);
+        buggy.onForRotations(-5, 5, 2, false);
     }
 
     @Test
     public void onForSeconds() {
-        buggy.onForSeconds(10, 5, 5);
+        buggy.onForSeconds(10, 5, 5, true);
     }
 
     @Test
