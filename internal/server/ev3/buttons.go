@@ -12,7 +12,7 @@ type ButtonServerImpl struct {
 }
 
 func (b *ButtonServerImpl) Pressed(_ context.Context, _ *Empty) (*Buttons, error) {
-	evt := getLastButtonEvent(false)
+	evt := GetLastButtonEvent(false)
 	resp := &Buttons{
 		Pressed: evt != nil && time.Now().Sub(evt.TimeStamp) < 3*time.Second,
 	}
@@ -55,8 +55,8 @@ func wait() {
 	}
 }
 
-// getLastButtonEvent gets last ev3dev.ButtonEvent
-func getLastButtonEvent(clear bool) *Event {
+// GetLastButtonEvent gets last ev3dev.ButtonEvent
+func GetLastButtonEvent(clear bool) *Event {
 	if lastButtonEvent == nil {
 		return nil
 	}

@@ -2,37 +2,38 @@ package main
 
 import (
 	"flag"
-	"github.com/Bermos/EV3-gRPC/internal/server/buggy"
-	"github.com/Bermos/EV3-gRPC/internal/server/ev3"
-	"google.golang.org/grpc"
+	"fmt"
+	"github.com/Bermos/EV3-gRPC/internal/server"
+	"github.com/Bermos/EV3-gRPC/internal/status"
+	"github.com/Bermos/EV3-gRPC/internal/util"
 	"log"
-	"net"
+	"os"
+	"time"
 )
 
 var (
-	address = flag.String("address", ":9000", "address to bind to, can also be just the port ':9000'")
+	getHostname = flag.Bool("get-hostname", false, "only return hostname for this device")
+	noMonitor   = flag.Bool("no-monitor", false, "do not create a display overlay")
+	verify      = flag.Bool("verify", false, "exit with status code 0, check if executable")
+	address     = flag.String("address", ":9000", "address to bind to, can also be just the port ':9000'")
 )
 
 func main() {
 	flag.Parse()
 
-	listener, err := net.Listen("tcp", *address)
-	if err != nil {
-		log.Fatalf("Could not listen on address %s: %v", *address, err)
+	if *verify {
+		log.Printf("INFO - Verify mode, exiting...")
+		os.Exit(0)
 	}
 
-	s := grpc.NewServer()
-
-	ev3.RegisterButtonServer(s, &ev3.ButtonServerImpl{})
-	ev3.RegisterLedServer(s, &ev3.LedServerImpl{})
-	ev3.RegisterPowerServer(s, &ev3.PowerServerImpl{})
-	ev3.RegisterSoundServer(s, &ev3.SoundServerImpl{})
-
-	buggy.RegisterMotorsServer(s, &buggy.MotorsServerImpl{})
-	buggy.RegisterSensorsServer(s, &buggy.SensorsServerImpl{})
-
-	log.Printf("INFO - starting server on address %s", *address)
-	if err = s.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+	if *getHostname {
+		fmt.Print(util.GetHostname())
+		os.Exit(0)
 	}
+
+	if !*noMonitor {
+		status.Start(time.Second * 4)
+	}
+
+	server.StartServer(*address)
 }

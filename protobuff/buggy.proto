@@ -48,7 +48,7 @@ service Motors {
 
 message SensorResult {
   string str_value = 1;
-  double num_value = 2;
+  int32 num_value = 2;
 }
 
 service Sensors {

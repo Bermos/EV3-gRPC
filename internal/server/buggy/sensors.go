@@ -11,27 +11,27 @@ type SensorsServerImpl struct {
 	UnimplementedSensorsServer
 }
 
-func (s *SensorsServerImpl) Gyro(_ context.Context, empty *Empty) (*SensorResult, error) {
+func (s *SensorsServerImpl) Gyro(_ context.Context, _ *Empty) (*SensorResult, error) {
 	Gyro.SetMode("GYRO-ANG")
 	resp := &SensorResult{
 		StrValue: Gyro.GetStringValue(),
-		NumValue: Gyro.GetNumValue() - gyroOffset,
+		NumValue: int32(Gyro.GetNumValue() - gyroOffset),
 	}
 
 	return resp, nil
 }
 
-func (s *SensorsServerImpl) GyroReset(_ context.Context, empty *Empty) (*Empty, error) {
+func (s *SensorsServerImpl) GyroReset(_ context.Context, _ *Empty) (*Empty, error) {
 	gyroOffset = Gyro.GetNumValue()
 
 	return &Empty{}, nil
 }
 
-func (s *SensorsServerImpl) Sonic(_ context.Context, empty *Empty) (*SensorResult, error) {
+func (s *SensorsServerImpl) Sonic(_ context.Context, _ *Empty) (*SensorResult, error) {
 	Sonic.SetMode("US-DIST-CM")
 	resp := &SensorResult{
 		StrValue: Sonic.GetStringValue(),
-		NumValue: Sonic.GetNumValue(),
+		NumValue: int32(Sonic.GetNumValue()),
 	}
 
 	return resp, nil
@@ -42,7 +42,7 @@ func (s *SensorsServerImpl) Sonic(_ context.Context, empty *Empty) (*SensorResul
 var (
 	Gyro       *sensor
 	Sonic      *sensor
-	gyroOffset = 0.0
+	gyroOffset = 0
 )
 
 type sensor struct {
@@ -50,18 +50,19 @@ type sensor struct {
 }
 
 func (s *sensor) GetStringValue() string {
-	values, err := s.TextValues()
+	v, err := s.Value(0)
 	if err != nil {
+		log.Printf("ERROR - sensor read error: %v", err)
 		return ""
 	}
 
-	return values[0]
+	return v
 }
 
-func (s *sensor) GetNumValue() float64 {
-	f, err := strconv.ParseFloat(s.GetStringValue(), 64)
+func (s *sensor) GetNumValue() int {
+	f, err := strconv.Atoi(s.GetStringValue())
 	if err != nil {
-		return 0.0
+		return 0
 	}
 
 	return f

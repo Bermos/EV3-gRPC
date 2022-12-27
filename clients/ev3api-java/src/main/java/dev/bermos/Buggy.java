@@ -51,7 +51,7 @@ public class Buggy extends EV3 {
      * @return gyro sensor angle in degrees
      */
     public int gyro(boolean reset) {
-        int gyroValue = (int) sensorsBlockingStub.gyro(empty).getNumValue();
+        int gyroValue = sensorsBlockingStub.gyro(empty).getNumValue();
 
         if (reset) {
             gyro_reset();
@@ -180,7 +180,7 @@ public class Buggy extends EV3 {
      * @return sonic sensor distance in centimeters
      */
     public int sonic() {
-        return (int) sensorsBlockingStub.sonic(empty).getNumValue();
+        return sensorsBlockingStub.sonic(empty).getNumValue();
     }
 
     /**

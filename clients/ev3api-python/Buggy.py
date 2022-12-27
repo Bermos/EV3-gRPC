@@ -18,7 +18,7 @@ class Buggy(EV3):
         :param reset: True to reset the gyro angle to 0 after reading, default False
         :return: gyro sensor angle in degrees
         """
-        gyro_value = int(self.sensors_stub.Gyro(self.buggy_empty))
+        gyro_value = self.sensors_stub.Gyro(self.buggy_empty)
 
         if reset:
             self.gyro_reset()
