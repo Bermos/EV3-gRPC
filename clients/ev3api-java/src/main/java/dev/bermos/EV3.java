@@ -112,7 +112,7 @@ public class EV3 {
     /**
      * Play a tone
      * @param frequency of the tone in herz
-     * @param durationMs of the tone in ms
+     * @param durationMs of the tone in milliseconds
      */
     public void play_tone(int frequency, int durationMs) {
         Tone tone = Tone.newBuilder().setFrequency(frequency).setDurationMs(durationMs).build();

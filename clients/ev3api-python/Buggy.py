@@ -14,4 +14,5 @@ class Buggy(EV3):
         self.buggy_empty = buggy_pb2.Empty
 
     def gyro(self) -> int:
+        """ :return: gyro sensor angle in degrees """
         return int(self.sensors_stub.Gyro(self.buggy_empty))
