@@ -9,3 +9,13 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "gradle"
+    directory: "/clients/ev3api-java"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "pip"
+    directory: "/clients/ev3api-python"
+    schedule:
+      interval: "weekly"
