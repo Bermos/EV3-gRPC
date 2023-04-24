@@ -1,2 +1,2 @@
-setuptools~=65.5.1
+setuptools~=67.7.1
 grpcio~=1.51.0
