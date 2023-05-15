@@ -20,7 +20,7 @@ VERSION = "0.1.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-  "grpcio ~= 1.51.0"
+  "grpcio >= 1.51,< 1.55"
 ]
 
 setup(
