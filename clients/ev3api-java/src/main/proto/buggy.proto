@@ -1,0 +1,58 @@
+syntax = 'proto3';
+
+package buggy;
+
+option go_package = "internal/server/buggy";
+option java_package = "dev.bermos.proto.buggy";
+option java_multiple_files = true;
+
+message Empty {}
+
+message OnParams {
+  int32 l_speed = 1;
+  int32 r_speed = 2;
+  uint32 degrees = 3;
+  uint32 rotations = 4;
+  uint32 seconds = 5;
+  bool break = 15;
+}
+
+message MotorParams {
+  uint32 speed = 1;
+  uint32 ramp_up = 2;
+  uint32 ramp_down = 3;
+  string stop = 4;
+  bool reset = 15;
+}
+
+message StopParams {
+  bool break = 1;
+}
+
+message MotorState {
+  uint32 position = 1;
+  bool not_moving = 2;
+}
+
+service Motors {
+  rpc On (OnParams) returns (Empty) {}
+  rpc OnForDegrees (OnParams) returns (Empty) {}
+  rpc OnForRotations (OnParams) returns (Empty) {}
+  rpc OnForSeconds (OnParams) returns (Empty) {}
+  rpc Left (MotorParams) returns (MotorState) {}
+  rpc Right (MotorParams) returns (MotorState) {}
+  rpc Stop (StopParams) returns (Empty) {}
+  rpc WaitUntilNotMoving (Empty) returns (MotorState) {}
+}
+
+
+message SensorResult {
+  string str_value = 1;
+  int32 num_value = 2;
+}
+
+service Sensors {
+  rpc Gyro (Empty) returns (SensorResult) {}
+  rpc GyroReset (Empty) returns (Empty) {}
+  rpc Sonic (Empty) returns (SensorResult) {}
+}
