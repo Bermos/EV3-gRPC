@@ -25,6 +25,11 @@ public class Buggy extends EV3 {
     private final SensorsGrpc.SensorsBlockingStub sensorsBlockingStub;
     private final Empty empty = Empty.newBuilder().build();
 
+
+    /**
+     * Create a new buggy with a specific ip-address or hostname
+     * @param host the specific ip-address or hostname
+     */
     public Buggy(String host) {
         super(host);
 
@@ -32,6 +37,12 @@ public class Buggy extends EV3 {
         sensorsBlockingStub = SensorsGrpc.newBlockingStub(channel);
     }
 
+
+    /**
+     * Create a new buggy with a specific ip-address or hostname and a port
+     * @param host the specific ip-address or hostname
+     * @param port the port to connect to
+     */
     public Buggy(String host, int port) {
         super(host, port);
 
@@ -114,6 +125,15 @@ public class Buggy extends EV3 {
      */
     public void on(int lSpeed, int rSpeed) {
         OnParams params = OnParams.newBuilder().setLSpeed(lSpeed).setRSpeed(rSpeed).build();
+        motorsBlockingStub.on(params);
+    }
+
+    /**
+     * Turn on both motors
+     * @param speed as percentage of max speed
+     */
+    public void on(int speed) {
+        OnParams params = OnParams.newBuilder().setLSpeed(speed).setRSpeed(speed).build();
         motorsBlockingStub.on(params);
     }
 

@@ -32,28 +32,28 @@ public class EV3 {
     }
 
     /**
-     * Let the robot beep
+     * The EV3 will beep
      */
     public void beep() {
         soundBlockingStub.beep(empty);
     }
 
     /**
-     * @return true if a button was pressend in the last 3 seconds
+     * @return true if a button is currently pressed or has been pressed in the last 3 seconds
      */
     public boolean button() {
         return buttonBlockingStub.pressed(empty).getPressed();
     }
 
     /**
-     * @return measured battery current in mirco-amps
+     * @return measured battery current in micro ampere
      */
     public int current() {
         return (int) powerBlockingStub.current(empty).getCurrent();
     }
 
     /**
-     * Flashe the LEDs
+     * Flashe the LEDs in the default amber color
      */
     public void flash() {
         EV3Led ledRequest = EV3Led.newBuilder().build();
@@ -66,6 +66,16 @@ public class EV3 {
      */
     public void flash(String color) {
         EV3Led ledRequest = EV3Led.newBuilder().setColor(color).build();
+        ledBlockingStub.flash(ledRequest);
+    }
+
+    /**
+     * Flashe the LEDs in the given color. It's like RGB but without blue.
+     * @param red value [0-255]
+     * @param green value [0-255]
+     */
+    public void flash(int red, int green) {
+        EV3Led ledRequest = EV3Led.newBuilder().setRed(red).setGreen(green).build();
         ledBlockingStub.flash(ledRequest);
     }
 
@@ -96,17 +106,17 @@ public class EV3 {
     }
 
     /**
-     * @return max battery voltage in micro-volts
+     * @return max battery voltage in micro volts
      */
     public int max_voltage() {
-        return (int) powerBlockingStub.maxVoltage(empty).getMaxVoltage();
+        return (int) (powerBlockingStub.maxVoltage(empty).getMaxVoltage() * 1000);
     }
 
     /**
-     * @return min battery voltage in micro-volts
+     * @return min battery voltage in micro volts
      */
     public int min_voltage() {
-        return (int) powerBlockingStub.minVoltage(empty).getMinVoltage();
+        return (int) (powerBlockingStub.minVoltage(empty).getMinVoltage() * 1000);
     }
 
     /**
@@ -124,7 +134,7 @@ public class EV3 {
      * @param content to be spoken
      */
     public void speak(String content) {
-        Text text= Text.newBuilder().setContent(content).build();
+        Text text = Text.newBuilder().setContent(content).build();
         soundBlockingStub.speak(text);
     }
 
@@ -136,10 +146,10 @@ public class EV3 {
     }
 
     /**
-     * @return measured battery voltage in micro-volts
+     * @return measured battery voltage in micro volts
      */
     public int voltage() {
-        return (int) powerBlockingStub.voltage(empty).getVoltage();
+        return (int) (powerBlockingStub.voltage(empty).getVoltage() * 1000);
     }
 }
 
