@@ -105,7 +105,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Python-Wheel
-          path: clients/ev3api-python/dist/ev3api-python-*-py3-none-any.whl
+          path: clients/ev3api-python/dist/ev3api_python-*-py3-none-any.whl
           retention-days: 7
 
 
