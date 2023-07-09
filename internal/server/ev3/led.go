@@ -42,9 +42,9 @@ func (l *LedServerImpl) Led(_ context.Context, led *EV3Led) (*Empty, error) {
 }
 
 func (l *LedServerImpl) LedOff(_ context.Context, _ *Empty) (*Empty, error) {
-	_ = setColor("all", "off")
+	err := setColor("all", "off")
 
-	return &Empty{}, nil
+	return &Empty{}, err
 }
 
 // ----------------------------- //
