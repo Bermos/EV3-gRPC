@@ -14,18 +14,18 @@ func StartServer(address string) {
 		log.Fatalf("Could not listen on address %s: %v", address, err)
 	}
 
-	s := grpc.NewServer()
+	grpcServer := grpc.NewServer()
 
-	ev3.RegisterButtonServer(s, &ev3.ButtonServerImpl{})
-	ev3.RegisterLedServer(s, &ev3.LedServerImpl{})
-	ev3.RegisterPowerServer(s, &ev3.PowerServerImpl{})
-	ev3.RegisterSoundServer(s, &ev3.SoundServerImpl{})
+	ev3.RegisterButtonServer(grpcServer, &ev3.ButtonServerImpl{})
+	ev3.RegisterLedServer(grpcServer, &ev3.LedServerImpl{})
+	ev3.RegisterPowerServer(grpcServer, &ev3.PowerServerImpl{})
+	ev3.RegisterSoundServer(grpcServer, &ev3.SoundServerImpl{})
 
-	buggy.RegisterMotorsServer(s, &buggy.MotorsServerImpl{})
-	buggy.RegisterSensorsServer(s, &buggy.SensorsServerImpl{})
+	buggy.RegisterMotorsServer(grpcServer, &buggy.MotorsServerImpl{})
+	buggy.RegisterSensorsServer(grpcServer, &buggy.SensorsServerImpl{})
 
 	log.Printf("INFO - starting server on address %s", address)
-	if err = s.Serve(listener); err != nil {
+	if err = grpcServer.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
