@@ -14,10 +14,13 @@ type PowerServerImpl struct {
 }
 
 func (p *PowerServerImpl) All(_ context.Context, _ *Empty) (*PowerInfo, error) {
+	voltageMax, _ := ps.VoltageMax()
+	voltageMin, _ := ps.VoltageMin()
+
 	resp := &PowerInfo{}
 	resp.Current, _ = ps.Current()
-	resp.MaxVoltage, _ = ps.VoltageMax()
-	resp.MinVoltage, _ = ps.VoltageMin()
+	resp.MaxVoltage = voltageMax * 1e-1 // It seems that our battery reports the wrong max and min voltages
+	resp.MinVoltage = voltageMin * 1e-1 // It seems that our battery reports the wrong max and min voltages
 	resp.Voltage, _ = ps.Voltage()
 	resp.Technology, _ = ps.Technology()
 
@@ -39,7 +42,7 @@ func (p *PowerServerImpl) MaxVoltage(_ context.Context, _ *Empty) (*PowerInfo, e
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &PowerInfo{MaxVoltage: voltageMax}, nil
+	return &PowerInfo{MaxVoltage: voltageMax * 1e-1}, nil
 }
 
 func (p *PowerServerImpl) MinVoltage(_ context.Context, _ *Empty) (*PowerInfo, error) {
@@ -48,7 +51,7 @@ func (p *PowerServerImpl) MinVoltage(_ context.Context, _ *Empty) (*PowerInfo, e
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &PowerInfo{MinVoltage: voltageMin}, nil
+	return &PowerInfo{MinVoltage: voltageMin * 1e-1}, nil
 }
 
 func (p *PowerServerImpl) Technology(_ context.Context, _ *Empty) (*PowerInfo, error) {
