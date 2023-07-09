@@ -14,19 +14,17 @@ class EV3:
         self.button_stub = ev3_pb2_grpc.ButtonStub(self.channel)
         self.led_stub = ev3_pb2_grpc.LedStub(self.channel)
 
-        self.ev3_empty = ev3_pb2.Empty()
-
     def beep(self) -> None:
-        """ Let the robot beep """
-        self.sound_stub.Beep(self.ev3_empty)
+        """ The EV3 will beep """
+        self.sound_stub.Beep(ev3_pb2.Empty())
 
     def button(self) -> bool:
-        """ :return: True if a button was pressend in the last 3 seconds """
-        return self.button_stub.Pressed(self.ev3_empty).pressed
+        """ :return: True if a button is currently pressed or has been pressed in the last 3 seconds """
+        return self.button_stub.Pressed(ev3_pb2.Empty()).pressed
 
     def current(self) -> int:
-        """ :return: measured battery current in mirco-amps """
-        return int(self.power_stub.Current(self.ev3_empty).current)
+        """ :return: measured battery current in micro ampere """
+        return int(self.power_stub.Current(ev3_pb2.Empty()).current)
 
     def flash(self, color: str = 'amber') -> None:
         """ Flashes the LEDs
@@ -44,16 +42,16 @@ class EV3:
         self.led_stub.Led(params)
 
     def led_off(self) -> None:
-        """ Turns off all LEDs """
-        self.led_stub.LedOff(self.ev3_empty)
+        """ Turn off all LEDs """
+        self.led_stub.LedOff(ev3_pb2.Empty())
 
     def max_voltage(self) -> int:
-        """ :return: max battery voltage in micro-volts """
-        return int(self.power_stub.MaxVoltage(self.ev3_empty).max_voltage)
+        """ :return: max battery voltage in micro volts """
+        return int(self.power_stub.MaxVoltage(ev3_pb2.Empty()).max_voltage)
 
     def min_voltage(self) -> int:
-        """ :return: min battery voltage in micro-volts """
-        return int(self.power_stub.MinVoltage(self.ev3_empty).min_voltage)
+        """ :return: min battery voltage in micro volts """
+        return int(self.power_stub.MinVoltage(ev3_pb2.Empty()).min_voltage)
 
     def play_tone(self, frequency: int, duration_ms: int) -> None:
         """ Play a tone
@@ -72,8 +70,8 @@ class EV3:
 
     def technology(self) -> str:
         """ :return: battery technology """
-        return self.power_stub.Technology(self.ev3_empty).technology
+        return self.power_stub.Technology(ev3_pb2.Empty()).technology
 
     def voltage(self) -> int:
-        """ :return: measured battery voltage in micro-volts """
-        return int(self.power_stub.Voltage(self.ev3_empty).voltage)
+        """ :return: measured battery voltage in micro volts """
+        return int(self.power_stub.Voltage(ev3_pb2.Empty()).voltage) * 1000
