@@ -49,6 +49,7 @@ type sensor struct {
 	*ev3dev.Sensor
 }
 
+// GetStringValue returns the sensor value as a string
 func (s *sensor) GetStringValue() string {
 	v, err := s.Value(0)
 	if err != nil {
@@ -59,6 +60,7 @@ func (s *sensor) GetStringValue() string {
 	return v
 }
 
+// GetNumValue returns the sensor value as an int
 func (s *sensor) GetNumValue() int {
 	f, err := strconv.Atoi(s.GetStringValue())
 	if err != nil {
@@ -72,17 +74,17 @@ func init() {
 	gyro, err := ev3dev.SensorFor("ev3-ports:in4", "lego-ev3-gyro")
 	if err != nil {
 		log.Printf("ERROR - could not load gyro sensor: %v", err)
-		return
+	} else {
+		Gyro = &sensor{gyro}
+		log.Println("INFO - Gyro sensor loaded")
 	}
 
 	sonic, err := ev3dev.SensorFor("ev3-ports:in1", "lego-ev3-us")
 	if err != nil {
 		log.Printf("ERROR - could not load sonic sensor: %v", err)
-		return
+	} else {
+		Sonic = &sensor{sonic}
+		log.Println("INFO - Sonic sensor loaded")
 	}
 
-	Sonic = &sensor{sonic}
-	Gyro = &sensor{gyro}
-
-	log.Printf("INFO - initialized sensors")
 }
