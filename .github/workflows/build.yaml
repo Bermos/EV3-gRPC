@@ -60,6 +60,7 @@ jobs:
       - name: Copy protobuf files
         run: |
           cp protobuff/* clients/ev3api-java/src/main/proto/.
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
@@ -71,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Java-Jar
-          path: clients/ev3api-java/build/libs/ev3api-java-1.0-SNAPSHOT-all.jar
+          path: clients/ev3-java/build/libs/ev3api-java-${{ github.ref_name }}-all.jar
           retention-days: 7
 
 
@@ -91,7 +92,7 @@ jobs:
           pip install build grpcio-tools
         working-directory: ./clients/ev3api-python
 
-      - name: Install dependencies
+      - name: Generate grpc code
         run: |
           python -m grpc_tools.protoc -I../../protobuff --python_out=. --pyi_out=. --grpc_python_out=. ../../protobuff/*.proto
         working-directory: ./clients/ev3api-python
@@ -104,7 +105,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Python-Wheel
-          path: clients/ev3api-python/dist/ev3api-python-0.1.0-py3-none-any.whl
+          path: clients/ev3-python/dist/ev3api-python-*-py3-none-any.whl
           retention-days: 7
 
 
@@ -144,8 +145,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./ev3api-java-1.0-SNAPSHOT-all.jar
-          asset_name: ev3api-java-1.0-SNAPSHOT-all.jar
+          asset_path: ./ev3api-java-${{ github.ref_name }}-all.jar
+          asset_name: ev3api-java-${{ github.ref_name }}-all.jar
           asset_content_type: application/java-archive
 
       - name: Upload Python Client Release Asset
@@ -154,6 +155,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./ev3api-python-0.1.0-py3-none-any.whl
-          asset_name: ev3api-python-0.1.0-py3-none-any.whl
+          asset_path: ./ev3api-python-${{ github.ref_name }}-py3-none-any.whl
+          asset_name: ev3api-python-${{ github.ref_name }}-py3-none-any.whl
           asset_content_type: application/zip

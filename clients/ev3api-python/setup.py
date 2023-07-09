@@ -1,12 +1,13 @@
 """
     EV3 API
 """
-
+import os
 
 from setuptools import setup, find_packages  # noqa: H301
 
 NAME = "ev3api-python"
-VERSION = "0.1.0"
+is_tag = os.environ.get("GITHUB_REF_TYPE") == "tag"
+VERSION = os.environ.get("GITHUB_REF_NAME") if is_tag else "0.0.0-dev"
 # To install the library, run the following
 #
 # python setup.py install
